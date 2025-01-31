@@ -32,7 +32,7 @@ export default function InputTable() {
 
   return (
     <div className="p-4 flex flex-col gap-4 text-xs">
-      <div className="grid grid-cols-9 gap-1 w-full">
+      <div className="grid grid-cols-10 gap-1 w-full">
         <TableHeader name="Name" />
         <TableHeader name="Location" />
         <TableHeader name="Sign up date" />
@@ -42,6 +42,7 @@ export default function InputTable() {
         <TableHeader name="Refund Request date" />
         <TableHeader name="Refund Request time" />
         <TableHeader name="Valid" />
+        <TableHeader name="Toggle Extra Info" />
 
         {requests.map((request, i) => (
           <RequestRow key={i} request={request} setRequest={setRequest(i)} />

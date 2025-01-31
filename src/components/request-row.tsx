@@ -4,6 +4,8 @@ import { validateRequest } from '../utils/validate-request'
 import clsx from 'clsx'
 import InputField from './input-field'
 import SelectField from './select-field'
+import { ValidationResponse } from '../utils/validate-request-time'
+import ResponseData from './response-data'
 
 type RequestRowProps = {
   request: WebRequest
@@ -11,7 +13,13 @@ type RequestRowProps = {
 }
 
 export default function RequestRow({ request, setRequest }: RequestRowProps) {
-  const [isValid, setIsValid] = useState(false)
+  const [response, setResponse] = useState<ValidationResponse>({
+    isValid: false,
+    error: '',
+  })
+
+  const [showResults, setShowResults] = useState(false)
+  const toggleResults = () => setShowResults(!showResults)
 
   const changeField = (name: keyof WebRequest) => (value: string) => {
     const newRequest = { ...request, [name]: value }
@@ -19,7 +27,7 @@ export default function RequestRow({ request, setRequest }: RequestRowProps) {
   }
 
   useEffect(() => {
-    setIsValid(validateRequest(request))
+    setResponse(validateRequest(request))
   }, [request])
 
   return (
@@ -57,12 +65,20 @@ export default function RequestRow({ request, setRequest }: RequestRowProps) {
       />
       <div
         className={clsx('text-white flex items-center justify-center', {
-          'bg-green-600': isValid,
-          'bg-red-800': !isValid,
+          'bg-green-600': response.isValid,
+          'bg-red-800': !response.isValid,
         })}
       >
-        {isValid ? 'true' : 'false'}
+        {response.isValid ? 'true' : 'false'}
       </div>
+
+      <button
+        onClick={toggleResults}
+        className="flex items-center justify-center cursor-pointer text-xs"
+      >
+        {showResults ? 'Hide' : 'Show'} Info
+      </button>
+      {showResults && <ResponseData response={response} />}
     </>
   )
 }
