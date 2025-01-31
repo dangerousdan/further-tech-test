@@ -15,7 +15,7 @@ export type WebRequest = CoreRequest & {
   refundRequestTime: string
 }
 
-export type Request = CoreRequest & {
+export type ValidRequest = CoreRequest & {
   timezone: TimeZone
   signupDate: Date
   tosType: TosType
@@ -23,8 +23,13 @@ export type Request = CoreRequest & {
   refundRequestDate: Date
 }
 
-export function convertRequestType(webRequest: WebRequest): Request {
-  const convertedTimezone = tzMap?.[webRequest.timezone] || 'Europe/Paris'
+/**
+ * Converts input from the client into a ValidRequest object.
+ * Converts date and time strings into date objects in the correct timezone.
+ * Defaults to Europe/London if the timezone is not recognised.
+ */
+export function convertRequestType(webRequest: WebRequest): ValidRequest {
+  const convertedTimezone = tzMap?.[webRequest.timezone] || 'Europe/London'
 
   const signupDate = parseDateString({
     dateString: webRequest.signupDate,

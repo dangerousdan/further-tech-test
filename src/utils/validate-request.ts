@@ -6,8 +6,8 @@ import {
 
 export function validateRequest(webRequest: WebRequest): ValidationResponse {
   try {
-    const request = convertRequestType(webRequest)
-    return validateRequestTime(request)
+    const validRequest = convertRequestType(webRequest)
+    return validateRequestTime(validRequest)
   } catch (error) {
     if (error instanceof Error) {
       return { isValid: false, error: error.message }

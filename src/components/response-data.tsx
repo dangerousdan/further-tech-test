@@ -10,7 +10,7 @@ export default function ResponseData({
 }) {
   if (response?.error) {
     return (
-      <div className="col-span-9 py-2">
+      <div className="col-span-10 p-2 grid grid-cols-2 gap-2 border border-gray-300 rounded">
         {response?.error && <div>{response.error}</div>}
       </div>
     )
@@ -24,7 +24,7 @@ export default function ResponseData({
     <div className="col-span-10 p-2 grid grid-cols-2 gap-2 border border-gray-300 rounded">
       <div className="flex gap-2">
         <div>Approval hours:</div>
-        <div>{response.approvalTimeLimit}</div>
+        <div>{response.approvalTimeLimitHours}</div>
       </div>
       <div className="flex gap-2">
         <div>Adjusted refund request time:</div>

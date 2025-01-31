@@ -9,9 +9,8 @@ export type TimeZone =
   | 'Europe/London'
 
 const nativeTimezone: TimeZone = 'Europe/London'
-const formatAmericanDate = 'MM/dd/yyyy'
-const formatEuropeanDate = 'dd/MM/yyyy'
-const formatTime = 'HH:mm'
+const formatAmericanDate = 'MM/dd/yyyy HH:mm'
+const formatEuropeanDate = 'dd/MM/yyyy HH:mm'
 
 export const tzMap: Record<WebTimeZone, TimeZone> = {
   PST: 'America/Los_Angeles',
@@ -89,15 +88,10 @@ type ParseDateArgs = {
 export function parseDateString({
   dateString,
   timezone,
-  timeString = '',
+  timeString = '00:00',
 }: ParseDateArgs): Date {
   const dateTimeString = `${dateString} ${timeString}`
-
-  let dateFormat = getDateFormatFromTimezone(timezone)
-
-  if (timeString) {
-    dateFormat += ` ${formatTime}`
-  }
+  const dateFormat = getDateFormatFromTimezone(timezone)
 
   const date = parse(dateTimeString, dateFormat, new TZDate(0, 0, 0, timezone))
   return date.withTimeZone(nativeTimezone)

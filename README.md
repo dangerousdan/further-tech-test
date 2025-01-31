@@ -32,5 +32,5 @@ On input change, each request is validated by:
 
 - The table is created with CSS grid, rather than HTML tables. Tables are old-school and it's easier to do things like animations with css grid layouts.
 - Bank holidays aren't considered
-- I planned for some nice input validation and error reporting, but for now, it only checks that generated Date objects are valid dates. This is enough as an MVC, but ideally, we should be validating all fields. Thrown errors appear in the console.
+- I planned for some nice input validation and error reporting, but for now, it only checks that generated Date objects are valid dates. This is enough as an MVC, but ideally, we should be validating all fields.
 - GMT dates are converted to Europe/London. This was unspecified in the brief.

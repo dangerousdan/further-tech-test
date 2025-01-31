@@ -6,8 +6,6 @@ test('parseDateString', () => {
     dateString: '1/2/2020',
     timezone: 'Europe/Paris',
   })
-
-  // BST is actually 1 hour behind
   expect(europeDate.toUTCString()).toEqual('Fri, 31 Jan 2020 23:00:00 GMT')
 
   const europeDateTime = parseDateString({
@@ -15,8 +13,6 @@ test('parseDateString', () => {
     timeString: '10:00',
     timezone: 'Europe/Paris',
   })
-
-  // BST is actually 1 hour behind
   expect(europeDateTime.toUTCString()).toEqual('Sat, 01 Feb 2020 09:00:00 GMT')
 
   const pst = parseDateString({
