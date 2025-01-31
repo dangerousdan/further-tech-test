@@ -63,7 +63,6 @@ function getOpeningHoursForDay(date: Date): OpeningHours | null {
 
 /**
  * opening hours is 9-5 mon-fri
- * how to handle this nicely?
  */
 export function adjustTimeToOpeningHours(date: Date): Date {
   const openingHours = getOpeningHoursForDay(date)

@@ -49,15 +49,15 @@ export function convertRequestType(webRequest: WebRequest): Request {
   // so long as we use real dates
 
   if (isNaN(signupDate.getTime())) {
-    throw new Error('Invalid signup date')
+    throw new Error(`${webRequest.name}: Invalid signup date`)
   }
 
   if (isNaN(investmentDate.getTime())) {
-    throw new Error('Invalid investment date')
+    throw new Error(`${webRequest.name}: Invalid investment date`)
   }
 
   if (isNaN(refundRequestDate.getTime())) {
-    throw new Error('Invalid refund date')
+    throw new Error(`${webRequest.name}: Invalid refund date`)
   }
 
   return {
