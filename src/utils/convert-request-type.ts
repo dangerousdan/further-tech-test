@@ -24,25 +24,26 @@ export type Request = CoreRequest & {
 }
 
 export function convertRequestType(webRequest: WebRequest): Request {
+  const convertedTimezone = tzMap?.[webRequest.timezone] || 'Europe/Paris'
+
   const signupDate = parseDateString({
     dateString: webRequest.signupDate,
-    timezone: webRequest.timezone,
+    timezone: convertedTimezone,
   })
 
   const investmentDate = parseDateString({
     dateString: webRequest.investmentDate,
     timeString: webRequest.investmentTime,
-    timezone: webRequest.timezone,
+    timezone: convertedTimezone,
   })
 
   const refundRequestDate = parseDateString({
     dateString: webRequest.refundRequestDate,
     timeString: webRequest.refundRequestTime,
-    timezone: webRequest.timezone,
+    timezone: convertedTimezone,
   })
 
   const tosType = determineTosType(signupDate)
-  const convertedTimezone = tzMap?.[webRequest.timezone] || 'Europe/Paris'
 
   // @TODO add _actual_ validation here.
   // use zod or superstruct, but this will do for now.

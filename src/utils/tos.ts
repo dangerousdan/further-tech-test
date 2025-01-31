@@ -7,6 +7,9 @@ export function determineTosType(date: Date): TosType {
   return date < tosThreshold ? 'old' : 'new'
 }
 
+/**
+ * @todo tidy to make more readable
+ */
 export function determineApprovalTimeLimit(
   tosType: TosType,
   requestSource: RequestSource

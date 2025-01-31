@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# Further tech test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Notes
 
-Currently, two official plugins are available:
+React component creates a WebRequest object for each table row, which contains dates and times as strings
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+On input change, each request is validated by:
 
-## Expanding the ESLint configuration
+- converting dates into date objects in the Europe/London timezone
+- calculates latest approval time, based on the TOS and request source
+- calculates actual refund time based on opening hours
+- dates are compared, to return a bool
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The table is created with CSS grid, rather than HTML tables. Tables are old-school and it's easier to do things like animations with css grid layouts.
 
-- Configure the top-level `parserOptions` property like this:
+## Setup
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+This is a vite project with React / TS. To set up, run `pnpm i`
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Launch app on port 5173: `pnpm dev`
+- Tests `pnpm test`
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Packages used
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Dates: `date-fns` & `@date-fns/tz`
+- Styles: `tailwind` and `clsx`
+- Validation: `superstruct` (ran out of time)

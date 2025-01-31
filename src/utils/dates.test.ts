@@ -24,14 +24,14 @@ test('parseDateString', () => {
     timeString: '10:00',
     timezone: 'America/Los_Angeles',
   })
-  expect(pst.toUTCString()).toEqual('Sat, 01 Feb 2020 18:00:00 GMT')
+  expect(pst.toUTCString()).toEqual('Thu, 02 Jan 2020 18:00:00 GMT')
 
   const est = parseDateString({
     dateString: '1/2/2020',
     timeString: '10:00',
     timezone: 'America/New_York',
   })
-  expect(est.toUTCString()).toEqual('Sat, 01 Feb 2020 15:00:00 GMT')
+  expect(est.toUTCString()).toEqual('Thu, 02 Jan 2020 15:00:00 GMT')
 })
 
 test('adjustTimeToOpeningHours', () => {
@@ -65,7 +65,6 @@ test('adjustTimeToOpeningHours', () => {
 
   for (const { input, output } of testDates) {
     const adjustedDate = adjustTimeToOpeningHours(input)
-    // console.log(input.toUTCString(), output.toUTCString())
     expect(adjustedDate).toEqual(output)
   }
 })

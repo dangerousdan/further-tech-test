@@ -8,14 +8,16 @@ export type TimeZone =
   | 'Europe/Paris'
   | 'Europe/London'
 
+const nativeTimezone: TimeZone = 'Europe/London'
 const formatAmericanDate = 'MM/dd/yyyy'
 const formatEuropeanDate = 'dd/MM/yyyy'
 const formatTime = 'HH:mm'
 
-type ParseDateArgs = {
-  dateString: string
-  timezone: string
-  timeString?: string
+export const tzMap: Record<WebTimeZone, TimeZone> = {
+  PST: 'America/Los_Angeles',
+  EST: 'America/New_York',
+  CET: 'Europe/Paris',
+  GMT: 'Europe/London',
 }
 
 const openingHours = {
@@ -28,15 +30,9 @@ type OpeningHours = {
   closed: Date
 }
 
-export const tzMap: Record<WebTimeZone, TimeZone> = {
-  PST: 'America/Los_Angeles',
-  EST: 'America/New_York',
-  CET: 'Europe/Paris',
-  GMT: 'Europe/London',
-}
-
 /**
  * returns opening hours or null if not open
+ * date should already be in Europe/London timezone
  */
 function getOpeningHoursForDay(date: Date): OpeningHours | null {
   const day = getDay(date)
@@ -81,8 +77,14 @@ export function adjustTimeToOpeningHours(date: Date): Date {
   return date < openingHours.open ? openingHours.open : date
 }
 
+type ParseDateArgs = {
+  dateString: string
+  timezone: TimeZone
+  timeString?: string
+}
+
 /**
- * returns date as BST
+ * returns date as Europe/London timezone
  */
 export function parseDateString({
   dateString,
@@ -98,17 +100,14 @@ export function parseDateString({
   }
 
   const date = parse(dateTimeString, dateFormat, new TZDate(0, 0, 0, timezone))
-
-  return date.withTimeZone('BST')
+  return date.withTimeZone(nativeTimezone)
 }
 
 /**
  * determines the date format based on the timezone
- * @TODO determine based on the timezone offset
- * or get a complete list of US timezones
  */
-const getDateFormatFromTimezone = (timezone: string): string => {
-  if (['PST', 'EST'].includes(timezone)) {
+const getDateFormatFromTimezone = (timezone: TimeZone): string => {
+  if (timezone.includes('America')) {
     return formatAmericanDate
   }
   return formatEuropeanDate
