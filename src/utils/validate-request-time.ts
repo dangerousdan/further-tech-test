@@ -1,25 +1,9 @@
 import { addHours } from 'date-fns'
 import { determineApprovalTimeLimit } from './tos'
-import { ValidatedRequest, validateRequest } from './validate-request'
+import type { Request } from './convert-request-type'
 import { adjustTimeToOpeningHours } from './dates'
 
-const example = {
-  name: 'Emma',
-  timezone: 'PST',
-  signupDate: '1/2/2020',
-  source: 'phone',
-  investmentDate: '1/2/2021',
-  investmentTime: '06:00',
-  refundRequestDate: '1/2/2021',
-  refundRequestTime: '09:00',
-}
-
-const req = validateRequest(example)
-console.log(req)
-// const res = calculateRequestTime(req)
-// console.log({ res })
-
-export function calculateRequestTime(request: ValidatedRequest): boolean {
+export function validateRequestTime(request: Request): boolean {
   const approvalTimeLimit = determineApprovalTimeLimit(
     request.tosType,
     request.source
@@ -34,6 +18,14 @@ export function calculateRequestTime(request: ValidatedRequest): boolean {
     request.source == 'phone'
       ? adjustTimeToOpeningHours(request.refundRequestDate)
       : request.refundRequestDate
+
+  console.log({
+    name: request.name,
+    investmentDate: request.investmentDate,
+    refundRequestDate: request.refundRequestDate,
+    actualRefundRequestTime,
+    latestApprovalTime,
+  })
 
   return actualRefundRequestTime <= latestApprovalTime
 }

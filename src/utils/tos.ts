@@ -1,6 +1,5 @@
 export type TosType = 'old' | 'new'
-
-export type RequestSource = 'phone' | 'web app'
+export type RequestSource = 'phone' | 'webapp'
 
 const tosThreshold = new Date('2020-01-02T00:00:00Z')
 

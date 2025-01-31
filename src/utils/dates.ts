@@ -1,6 +1,13 @@
 import { TZDate } from '@date-fns/tz'
 import { add, getDay, parse, set } from 'date-fns'
 
+export type WebTimeZone = 'PST' | 'EST' | 'CET' | 'GMT'
+export type TimeZone =
+  | 'America/Los_Angeles'
+  | 'America/New_York'
+  | 'Europe/Paris'
+  | 'Europe/London'
+
 const formatAmericanDate = 'MM/dd/yyyy'
 const formatEuropeanDate = 'dd/MM/yyyy'
 const formatTime = 'HH:mm'
@@ -19,6 +26,13 @@ const openingHours = {
 type OpeningHours = {
   open: Date
   closed: Date
+}
+
+export const tzMap: Record<WebTimeZone, TimeZone> = {
+  PST: 'America/Los_Angeles',
+  EST: 'America/New_York',
+  CET: 'Europe/Paris',
+  GMT: 'Europe/London',
 }
 
 /**
@@ -87,12 +101,6 @@ export function parseDateString({
   const date = parse(dateTimeString, dateFormat, new TZDate(0, 0, 0, timezone))
 
   return date.withTimeZone('BST')
-}
-
-const tzMap = {
-  PST: 'America/Los_Angeles',
-  EST: 'America/New_York',
-  CET: 'Europe/Paris',
 }
 
 /**
