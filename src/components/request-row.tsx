@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { WebRequest } from '../utils/convert-request-type'
-import { validateRequest } from '../utils/validate-request'
 import clsx from 'clsx'
-import InputField from './input-field'
-import SelectField from './select-field'
-import { ValidationResponse } from '../utils/validate-request-time'
-import ResponseData from './response-data'
+import InputField from '~/components/input-field'
+import ResponseData from '~/components/response-data'
+import SelectField from '~/components/select-field'
+import { validateRequest } from '~/services/validate-request'
+import type { WebRequest } from '~/utils/convert-request-type'
+import type { ValidationResponse } from '~/utils/validate-request-time'
 
 type RequestRowProps = {
   request: WebRequest
@@ -35,12 +35,12 @@ export default function RequestRow({ request, setRequest }: RequestRowProps) {
       <InputField value={request.name} onChange={changeField('name')} />
       <SelectField
         options={['PST', 'CET', 'EST', 'GMT']}
-        value={request.timezone}
-        onChange={changeField('timezone')}
+        value={request.location}
+        onChange={changeField('location')}
       />
       <InputField
-        value={request.signupDate}
-        onChange={changeField('signupDate')}
+        value={request.signupDateStr}
+        onChange={changeField('signupDateStr')}
       />
       <SelectField
         options={['phone', 'webapp']}
@@ -48,20 +48,20 @@ export default function RequestRow({ request, setRequest }: RequestRowProps) {
         onChange={changeField('source')}
       />
       <InputField
-        value={request.investmentDate}
-        onChange={changeField('investmentDate')}
+        value={request.investmentDateStr}
+        onChange={changeField('investmentDateStr')}
       />
       <InputField
-        value={request.investmentTime}
-        onChange={changeField('investmentTime')}
+        value={request.investmentTimeStr}
+        onChange={changeField('investmentTimeStr')}
       />
       <InputField
-        value={request.refundRequestDate}
-        onChange={changeField('refundRequestDate')}
+        value={request.refundRequestDateStr}
+        onChange={changeField('refundRequestDateStr')}
       />
       <InputField
-        value={request.refundRequestTime}
-        onChange={changeField('refundRequestTime')}
+        value={request.refundRequestTimeStr}
+        onChange={changeField('refundRequestTimeStr')}
       />
       <div
         className={clsx('text-white flex items-center justify-center', {

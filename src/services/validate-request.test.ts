@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { initialRequestData } from '../request-data.js'
+import { initialRequestData } from '~/request-data.js'
 import { validateRequest } from './validate-request.js'
 
 const expectedResults: boolean[] = [

@@ -1,9 +1,15 @@
-import { convertRequestType, WebRequest } from './convert-request-type'
+import { convertRequestType, WebRequest } from '~/utils/convert-request-type'
 import {
   validateRequestTime,
   ValidationResponse,
-} from './validate-request-time'
+} from '~/utils/validate-request-time'
 
+/**
+ * Converts the WebRequest to a ValidRequest (converts dates)
+ * then validates the request was made within the time limits
+ *
+ * Validation response contains extra info for the UI to display
+ */
 export function validateRequest(webRequest: WebRequest): ValidationResponse {
   try {
     const validRequest = convertRequestType(webRequest)

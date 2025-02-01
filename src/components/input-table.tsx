@@ -1,19 +1,8 @@
 import { useState } from 'react'
-import type { WebRequest } from '../utils/convert-request-type'
-import { initialRequestData } from '../request-data'
-import TableHeader from './table-header'
-import RequestRow from './request-row'
-
-const emptyRequest: WebRequest = {
-  name: '',
-  timezone: 'PST',
-  signupDate: '',
-  source: 'phone',
-  investmentDate: '',
-  investmentTime: '',
-  refundRequestDate: '',
-  refundRequestTime: '',
-}
+import TableHeader from '~/components/table-header'
+import RequestRow from '~/components/request-row'
+import type { WebRequest } from '~/utils/convert-request-type'
+import { emptyRequest, initialRequestData } from '~/request-data'
 
 export default function InputTable() {
   const [requests, setRequests] = useState<WebRequest[]>(initialRequestData)

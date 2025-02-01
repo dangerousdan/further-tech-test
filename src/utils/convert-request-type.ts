@@ -1,18 +1,24 @@
-import { parseDateString, TimeZone, tzMap, WebTimeZone } from './dates'
-import { determineTosType, type RequestSource, type TosType } from './tos'
+import {
+  locationTimezoneMap,
+  parseDateString,
+  type TimeZone,
+  type UserLocation,
+} from '~/utils/dates'
+import { determineTosType, type RequestSource, type TosType } from '~/utils/tos'
+import { nativeTimezone } from '~/constraints'
 
 export type CoreRequest = {
   name: string
   source: RequestSource
+  location: UserLocation
 }
 
 export type WebRequest = CoreRequest & {
-  timezone: WebTimeZone
-  signupDate: string
-  investmentDate: string
-  investmentTime: string
-  refundRequestDate: string
-  refundRequestTime: string
+  signupDateStr: string
+  investmentDateStr: string
+  investmentTimeStr: string
+  refundRequestDateStr: string
+  refundRequestTimeStr: string
 }
 
 export type ValidRequest = CoreRequest & {
@@ -26,26 +32,28 @@ export type ValidRequest = CoreRequest & {
 /**
  * Converts input from the client into a ValidRequest object.
  * Converts date and time strings into date objects in the correct timezone.
+ * Converts timezone strings into valid timezones.
+ * Determins the TOS type based on the signup date.
  * Defaults to Europe/London if the timezone is not recognised.
  */
 export function convertRequestType(webRequest: WebRequest): ValidRequest {
-  const convertedTimezone = tzMap?.[webRequest.timezone] || 'Europe/London'
+  const timezone = locationTimezoneMap?.[webRequest.location] || nativeTimezone
 
   const signupDate = parseDateString({
-    dateString: webRequest.signupDate,
-    timezone: convertedTimezone,
+    dateString: webRequest.signupDateStr,
+    timezone,
   })
 
   const investmentDate = parseDateString({
-    dateString: webRequest.investmentDate,
-    timeString: webRequest.investmentTime,
-    timezone: convertedTimezone,
+    dateString: webRequest.investmentDateStr,
+    timeString: webRequest.investmentTimeStr,
+    timezone,
   })
 
   const refundRequestDate = parseDateString({
-    dateString: webRequest.refundRequestDate,
-    timeString: webRequest.refundRequestTime,
-    timezone: convertedTimezone,
+    dateString: webRequest.refundRequestDateStr,
+    timeString: webRequest.refundRequestTimeStr,
+    timezone,
   })
 
   const tosType = determineTosType(signupDate)
@@ -68,7 +76,8 @@ export function convertRequestType(webRequest: WebRequest): ValidRequest {
 
   return {
     name: webRequest.name,
-    timezone: convertedTimezone,
+    location: webRequest.location,
+    timezone,
     source: webRequest.source,
     tosType,
     signupDate,

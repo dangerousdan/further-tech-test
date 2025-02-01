@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { adjustTimeToOpeningHours, parseDateString } from './dates.js'
+import { adjustDateToNextOpeningHours, parseDateString } from './dates.js'
 
 test('parseDateString', () => {
   const europeDate = parseDateString({
@@ -30,7 +30,7 @@ test('parseDateString', () => {
   expect(est.toUTCString()).toEqual('Thu, 02 Jan 2020 15:00:00 GMT')
 })
 
-test('adjustTimeToOpeningHours', () => {
+test('adjustDateToNextOpeningHours', () => {
   const testDates = [
     {
       // friday 9am valid
@@ -60,7 +60,7 @@ test('adjustTimeToOpeningHours', () => {
   ]
 
   for (const { input, output } of testDates) {
-    const adjustedDate = adjustTimeToOpeningHours(input)
+    const adjustedDate = adjustDateToNextOpeningHours(input)
     expect(adjustedDate).toEqual(output)
   }
 })

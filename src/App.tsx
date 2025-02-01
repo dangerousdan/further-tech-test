@@ -1,4 +1,4 @@
-import InputTable from './components/input-table'
+import InputTable from '~/components/input-table'
 
 function App() {
   return (

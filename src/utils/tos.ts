@@ -1,7 +1,7 @@
+import { approvalTimeLimits, tosThreshold } from '~/constraints'
+
 export type TosType = 'old' | 'new'
 export type RequestSource = 'phone' | 'webapp'
-
-const tosThreshold = new Date('2020-01-02T00:00:00Z')
 
 export function determineTosType(date: Date): TosType {
   return date < tosThreshold ? 'old' : 'new'
@@ -11,9 +11,5 @@ export function determineApprovalTimeLimitHours(
   tosType: TosType,
   requestSource: RequestSource
 ): number {
-  if (tosType === 'old') {
-    return requestSource == 'phone' ? 4 : 8
-  }
-
-  return requestSource == 'phone' ? 24 : 16
+  return approvalTimeLimits[requestSource][tosType]
 }
