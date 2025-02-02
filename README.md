@@ -32,7 +32,25 @@ The response returns an isValid boolean, along with either:
 - a latestApprovalDate and adjustedRefundRequestDate
 - an error string to say what went wrong
 
-# Notes
+# Review notes
+
+The recommended time for this was 2 hours. I solved the problem within the recommended time, but probably spent 3-4 hours total after cleaning up and refactoring to a presentable level.
+
+Here's my own review of what I missed or could have done better:
+
+- In `request-row.tsx`, selection options should be typed.
+- The `WebRequest` object should be validated properly with Zod/Superstruct, then generate an inferred type from the validation object.
+- Naming: `WebRequest` and `ValidRequest` are ambiguous name choices. Better names would be `InvestmentRefundRequestParams` and `InvestmentRefundRequest`.
+- The spec says that phone call requests respect business hours. UK public holidays should be considered out of hours.
+- An incorrect timezone assumes 'Europe/London'. An invalid source assumes 'web app'. These should throw a validation error, rather than making assumptions.
+- I typed `webapp` not `web app`. Sloppy.
+- Input dates and times should be trimmed to avoid unneccesary errors.
+- Incomplete testing. Cover all the edge cases.
+- `dates.test.ts` tests are testing too many things in each test. Iterating test cases such as in `validate-request.test.ts` is better as it means more granular results.
+- I accidentally exposed my preference to not use semicolons. Add a prettier config file to enforce standards. Node version should also be specified in `package.json`.
+- Missing useCallback optimisations in React. AFAIK the react v19 compiler automatially adds these optimisations, but this project is using react v18.
+
+# Previous Notes
 
 - The table is created with CSS grid, rather than HTML tables. Tables are old-school and it's easier to do things like animations with css grid layouts.
 - Bank holidays aren't considered in this solution
